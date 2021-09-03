@@ -19,7 +19,7 @@ public class Dungeon
 
     private Vector3[] floorCoords;
 
-    // Â öåëÿõ îïòèìèçàöèè :)
+    // Ã‚ Ã¶Ã¥Ã«Ã¿Ãµ Ã®Ã¯Ã²Ã¨Ã¬Ã¨Ã§Ã Ã¶Ã¨Ã¨ :)
     private TilePool floorTilePool;
     private TilePool wallTilePool;
     private TilePool ceilingTilePool;
@@ -27,22 +27,50 @@ public class Dungeon
     private Tile enterTile;
     private Tile exitTile;
 
-    public Dungeon(int levelsAmount, int minIterations, int maxIterations, GameObject floorTileModel, GameObject wallTileModel, GameObject ceilingTileModel, GameObject enterTileModel, GameObject exitTileModel)
+    public Dungeon(int levelsAmount, int minIterations, int maxIterations )
     {
         this.levelsAmount = levelsAmount;
         this.minIterations = minIterations;
         this.maxIterations = maxIterations;
 
-        floorTilePool = new TilePool(maxIterations, floorTileModel);
-        wallTilePool = new TilePool(maxIterations * 3, wallTileModel);
-        ceilingTilePool = new TilePool(maxIterations, ceilingTileModel);
+        iterations = minIterations; 
+    }
 
-        enterTile = new Tile(enterTileModel);
-        exitTile = new Tile(exitTileModel);
+    public Dungeon SetFloorTile(GameObject tile)
+    {
+        this.floorTilePool = new TilePool(this.maxIterations, tile);
+        return this;
+    }
+     
+    public Dungeon SetWallTile(GameObject floorTileModel)
+    {
+        this.wallTilePool = new TilePool(this.maxIterations * 3, tile);
+        return this;
+    }
 
-        iterations = minIterations;
+    public Dungeon SetCeilingTile(GameObject floorTileModel)
+    {
+        this.ceilingTilePool = new TilePool(maxIterations, tile);
+        return this;
+    }
 
-        GenerateNewLevel();
+
+    public Dungeon SetEnterTile(GameObject tile)
+    {
+        this.enterTile = new TilePool(this.maxIterations, tile);
+        return this;
+    }
+
+    public Dungeon SetEnterTile(GameObject tile)
+    {
+        this.enterTile = new Tile( tile);
+        return this;
+    }
+
+    public Dungeon SetExitTile(GameObject tile)
+    {
+        this.exitTile = new Tile(tile);
+        return this;
     }
 
     public void GenerateNewLevel()
@@ -51,7 +79,7 @@ public class Dungeon
 
         if (levelCounter == levelsAmount)
         {
-            // Ïîëíîñòüþ óäàëÿåì âñå ñîçäàííûå îáúåêòû äëÿ ïîäçåìåëüÿ îáúåêòû.
+            // ÃÃ®Ã«Ã­Ã®Ã±Ã²Ã¼Ã¾ Ã³Ã¤Ã Ã«Ã¿Ã¥Ã¬ Ã¢Ã±Ã¥ Ã±Ã®Ã§Ã¤Ã Ã­Ã­Ã»Ã¥ Ã®Ã¡ÃºÃ¥ÃªÃ²Ã» Ã¤Ã«Ã¿ Ã¯Ã®Ã¤Ã§Ã¥Ã¬Ã¥Ã«Ã¼Ã¿ Ã®Ã¡ÃºÃ¥ÃªÃ²Ã».
             DungeonCompletedEvent += () =>
             {
                 floorTilePool.DestroyAllTiles();
